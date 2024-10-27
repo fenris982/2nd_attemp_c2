@@ -3,6 +3,7 @@ import threading
 import time
 from flask import Flask, render_template, request
 from pathlib import Path
+import ssl
 
 class Server():
     
@@ -127,20 +128,22 @@ class Server():
 
     def server_socket(self):
         """
-        Starts the server socket, binds it to the configured IP and port, and continuously listens for
+        Starts the TLS server socket, binds it to the configured IP and port, and continuously listens for
         incoming client connections. Each connection is handled by a separate thread.
         """
-        
-        server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)             # Create a TCP socket
-        server_sock.bind((self.server_IP, self.server_PORT))                        # Bind to IP and port
-        server_sock.listen(5)                                                       # Start listening for incoming connections
+        server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)         # Create a TCP socket
+        context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)                       # Provides the protocol version for TLS
+        context.load_cert_chain('.\\Certs\\certificate.pem', '.\\certs\\privkey.pem')   #Provides location for cert and key
+        sslconn = context.wrap_socket(server_sock, server_side = True)          # Wraps the socket connection in the TLS
+        sslconn.bind((self.server_IP, self.server_PORT))                        # Bind to IP and port
+        sslconn.listen(5)                                                       # Start listening for incoming connections
         print(f'Server socket is running on {self.server_IP}:{self.server_PORT}')
         
         # Continuously accept new connections
         while True:
-            connection, address = server_sock.accept()                              # Accept a new connection
+            connection, address = sslconn.accept()                              # Accept a new connection
             print(f"Connection received from {address}!")
-            thread_index = len(self.THREADS)                                        # Get the index for this connection
+            thread_index = len(self.THREADS)                                    # Get the index for this connection
             
             # Create a new thread to handle the connection
             t = threading.Thread(target=self.handle_connection, args=(connection, address, thread_index))

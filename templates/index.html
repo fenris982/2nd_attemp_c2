@@ -3,67 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the C2 Server!</title>
     <style>
+        /* Dark mode background */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #d3d3d3; /* Light grey background */
-        }
-
-        .navbar {
-            background-color: #000000; /* Black bar */
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background-color: #2e2e2e; /* Middle-dark grey */
             color: white;
         }
 
+        /* Black bar at the top */
+        .navbar {
+            background-color: #000000;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px;
+        }
+
+        /* Button styling in navbar */
         .navbar button {
             background-color: #4CAF50; /* Green button */
             border: none;
             color: white;
             padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
             font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
             border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
 
+        .navbar button:hover {
+            background-color: #45a049; /* Slightly darker green on hover */
+        }
+
+        /* Title styling */
         .title {
-            margin: 20px;
-            font-size: 24px;
             text-align: center;
+            font-size: 28px;
+            margin: 20px;
         }
 
+        /* Content styling */
         .content {
             padding: 20px;
             text-align: center;
         }
+
+        .content h1 {
+            font-size: 24px;
+        }
     </style>
-    <title>Welcome to the C2 Server!</title>
 </head>
 <body>
 
+    <!-- Navbar with buttons -->
     <div class="navbar">
         <button onclick="location.href='/'">Index</button>
         <button onclick="location.href='/agents'">Agents</button>
     </div>
 
+    <!-- Main title -->
     <div class="title">
         <h1>Welcome to the C2 Server</h1>
     </div>
 
+    <!-- Content area -->
     <div class="content">
         <p>{% block content %}
-
             <br>
-            <h1 class="title is-2 has-text-centered">Chose your agent to continue!</h1>
-
-            {% endblock %}</p>
+            <h1 class="title is-2 has-text-centered">Choose your agent to continue!</h1>
+        {% endblock %}</p>
     </div>
 
 </body>

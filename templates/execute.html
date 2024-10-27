@@ -1,17 +1,91 @@
-<html>
-    <body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Execute Commands</title>
+    <style>
+        /* Dark mode background */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #2e2e2e; /* Middle-dark grey */
+            color: white;
+        }
 
-        <h1> Execute Commands Here: </h1>
+        /* Main title styling */
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            margin-top: 20px;
+        }
 
-        <form action="http://127.0.0.1:60000/{{name}}/execute" method="POST">
+        /* Form styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
 
-            <p>Enter Command: </p>
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
 
-            <input type="text" name="command">
+        /* Input field styling */
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 20px;
+            width: 80%;
+            max-width: 400px;
+            background-color: #444; /* Darker input field */
+            color: white;
+        }
 
-            <input type="submit">
-    
-        <pre> {{ cmdoutput }} </pre>
-            
-    </body>
+        /* Submit button styling */
+        input[type="submit"] {
+            background-color: #4CAF50; /* Green button */
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049; /* Slightly darker green on hover */
+        }
+
+        /* Command output styling */
+        pre {
+            background-color: #333; /* Darker background for command output */
+            color: #00FF00; /* Green text for output */
+            padding: 15px;
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Execute Commands Here:</h1>
+
+    <form action="http://127.0.0.1:60000/{{name}}/execute" method="POST">
+        <p>Enter Command:</p>
+        <input type="text" name="command">
+        <input type="submit" value="Execute">
+    </form>
+
+    <pre>{{ cmdoutput }}</pre>
+
+</body>
 </html>

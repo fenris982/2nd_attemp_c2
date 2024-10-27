@@ -1,16 +1,78 @@
-<html>
-    <body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Agents</title>
+    <style>
+        /* Dark mode background */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #2e2e2e; /* Middle-dark grey */
+            color: white;
+        }
 
-        <h1> List of current Agents: </h1>
+        /* Black bar at the top */
+        .navbar {
+            background-color: #000000;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-        {% for i in threads %}
+        /* Title text inside the navbar */
+        .navbar-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
 
-        <h2> {{ i.name }} </h2>
-        <h2> {{ips[threads.index(i)]}} </h2>
+        /* Content styling */
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 28px;
+        }
 
+        h2 {
+            margin-left: 20px;
+            font-size: 22px;
+        }
+
+        /* Link styling */
+        a {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px;
+            margin: 10px 20px;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar with title -->
+    <div class="navbar">
+        <div class="navbar-title">List of Agents</div>
+    </div>
+
+    <h1>List of Current Agents:</h1>
+
+    <!-- Loop through the agents -->
+    {% for i in threads %}
+        <h2>{{ i.name }}</h2>
+        <h2>{{ ips[threads.index(i)] }}</h2>
         <a href="http://127.0.0.1:60000/{{i.name}}/executecmd">Execute</a>
+    {% endfor %}
 
-        {% endfor %}
-    
-    </body>
+</body>
 </html>
